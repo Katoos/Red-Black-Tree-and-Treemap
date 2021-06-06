@@ -7,6 +7,9 @@ public class maintemp {
 		tree.insert(10, 55);
 		tree.insert(5, 2);
 		tree.insert(3, 2);
+		tree.insert(1, 5);
+		tree.insert(12, 52);
+		
 		System.out.println(tree.contains(5)) ;
 		System.out.println(tree.contains(3)) ;
 		System.out.println(tree.search(3));
