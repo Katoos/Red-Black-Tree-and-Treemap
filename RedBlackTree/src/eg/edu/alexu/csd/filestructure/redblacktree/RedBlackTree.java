@@ -66,12 +66,17 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
             return;
         }
 		
-		root = inserthelper(root, key, value) ;
+		root = inserthelper(root, key, value,null) ;
 		root.setColor(INode.BLACK);
 	}
 	//Method for left rotation
 	public INode<T, V> RotateLeft(INode<T, V> h) {
 		INode<T, V> x= h.getRightChild(); 
+		x.setParent(h.getParent());
+		h.setParent(x);
+		if(x.getLeftChild() != null) {
+			x.getLeftChild().setParent(h);
+		}
 		h.setRightChild(x.getLeftChild());
 		x.setLeftChild(h);
 		x.setColor(h.getColor());
@@ -83,6 +88,11 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
 	//Method for Right rotation
 	public INode<T, V> RotateRight(INode<T, V> h) {
 		INode<T, V> x= h.getLeftChild(); 
+		x.setParent(h.getParent());
+		h.setParent(x);
+		if(x.getRightChild() != null) {
+			x.getRightChild().setParent(h);
+		}
 		h.setLeftChild(x.getRightChild());
 		x.setRightChild(h);
 		x.setColor(h.getColor());
@@ -98,29 +108,32 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
 		
 	}
 	//Helper Method for insertion
-	public INode<T, V> inserthelper(INode<T, V> root,T key,V value) {
+	public INode<T, V> inserthelper(INode<T, V> root,T key,V value,INode<T, V> tempnode) {
 		//right place found to insert node
 		if(root == null) {
 			INode<T, V> NewNode = new Node<>();
 			NewNode.setColor(INode.RED);
 			NewNode.setKey(key);
 			NewNode.setValue(value);
+			NewNode.setParent(tempnode);
 			return NewNode ;
 			
 		}
+		
 		int cmp = key.compareTo(root.getKey()) ;
 		//if key is less than curr key node, go left
 		if(cmp < 0) {
-			root.setLeftChild(inserthelper( root.getLeftChild(), key, value));
+			root.setLeftChild(inserthelper( root.getLeftChild(), key, value,root));
 		}
 		//if key is greater than curr key node, go right
 		else if(cmp > 0) {
-			root.setRightChild(inserthelper( root.getRightChild(), key, value));
+			root.setRightChild(inserthelper( root.getRightChild(), key, value,root));
 		}
 		//we reached key
 		else {
 			root.setValue(value);
 		}
+		
 		//manage RB properties
 		//if left child is not red , but right is red 
 		if(!isRed(root.getLeftChild() ) && isRed(root.getRightChild()) ) {
