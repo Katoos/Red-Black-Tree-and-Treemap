@@ -1,11 +1,12 @@
 package eg.edu.alexu.csd.filestructure.redblacktree;
 
-public class  Node <T extends Comparable<T>, V> implements INode<T,V>  {
+public class  Node <T extends Comparable<T>, V> implements INode<T,V> {
 
-	 private T key; 
-	 private V value; 
-	 private boolean color=BLACK; 
-	 private INode<T,V> parent , leftChild , rightChild ;
+	private T key;
+	private V value;
+	private boolean color=BLACK;
+	private INode<T,V> parent , leftChild , rightChild ;
+
 	@Override
 	public void setParent(INode<T, V> parent) {
 		// TODO Auto-generated method stub
@@ -86,5 +87,6 @@ public class  Node <T extends Comparable<T>, V> implements INode<T,V>  {
 		// TODO Auto-generated method stub
 		return (value==null || key ==null);
 	}
+
 
 }

@@ -1,8 +1,21 @@
 package eg.edu.alexu.csd.filestructure.redblacktree;
 
-public interface INode<T extends Comparable<T>, V> {
+public interface INode<T extends Comparable<T>, V> extends Cloneable {
 	static final boolean RED   = true;
     static final boolean BLACK = false;
+
+//    // deep cloning.
+//	default public INode<T, V> clone(INode<T, V> root) throws CloneNotSupportedException {
+//		INode<T, V> copy = new Node<T, V>();
+//		copy.setKey(root.getKey());
+//		copy.setValue(root.getValue());
+//		copy.setColor(root.getColor());
+//		copy.setLeftChild(root.getLeftChild());
+//		copy.setRightChild(root.getRightChild());
+//		copy.setParent(root.getParent());
+//		return copy;
+//	}
+
     /**
      * set the parent of the current node in the tree
      * @param parent
@@ -15,7 +28,7 @@ public interface INode<T extends Comparable<T>, V> {
 	INode<T, V> getParent();    
     /**
      * set the left child of the current node in the tree
-     * @param leftchild
+     * @param leftChild
      */
     void setLeftChild(INode<T, V> leftChild);
 	/**

@@ -1,9 +1,7 @@
 package eg.edu.alexu.csd.filestructure.redblacktree;
 
-import javax.management.RuntimeErrorException;
-
 public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree<T, V> {
-	private INode<T, V> root =null ;
+	private INode<T, V> root = null;
 	
 	private boolean isRed(INode<T, V> x) {
         if (x == null) return false;
@@ -29,14 +27,15 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
 		
 	}
 
+	// change.
 	@Override
 	public V search(T key) {
 		if (key == null) throw new IllegalArgumentException("Key is null");
-        return searchhelper(root, key);
-		
+        return searchHelper(root, key).getValue();
 	}
-	public V searchhelper(INode<T, V> root , T key) {
-		
+
+	// change.
+	public INode<T, V> searchHelper(INode<T, V> root , T key) {
 		while (root != null) {
             int cmp = key.compareTo(root.getKey());
             if(cmp < 0) {
@@ -46,7 +45,7 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
             	root = root.getRightChild();
             }
             else { //key is found
-            	return root.getValue();
+            	return root;
             }
         }
         return null;
@@ -66,7 +65,7 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
             return;
         }
 		
-		root = inserthelper(root, key, value,null) ;
+		root = insertHelper(root, key, value,null) ;
 		root.setColor(INode.BLACK);
 	}
 	//Method for left rotation
@@ -99,7 +98,7 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
 		h.setColor(INode.RED);
 		return x ;
 	}
-	//Method for fliping colors
+	//Method for flipping colors
 	public void FlipColors(INode<T, V> h) {
 		h.setColor(INode.RED);
 		h.getLeftChild().setColor(INode.BLACK);
@@ -108,7 +107,7 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
 		
 	}
 	//Helper Method for insertion
-	public INode<T, V> inserthelper(INode<T, V> root,T key,V value,INode<T, V> tempnode) {
+	public INode<T, V> insertHelper(INode<T, V> root, T key, V value, INode<T, V> tempnode) {
 		//right place found to insert node
 		if(root == null) {
 			INode<T, V> NewNode = new Node<>();
@@ -123,11 +122,11 @@ public class RedBlackTree <T extends Comparable<T> , V> implements IRedBlackTree
 		int cmp = key.compareTo(root.getKey()) ;
 		//if key is less than curr key node, go left
 		if(cmp < 0) {
-			root.setLeftChild(inserthelper( root.getLeftChild(), key, value,root));
+			root.setLeftChild(insertHelper( root.getLeftChild(), key, value,root));
 		}
 		//if key is greater than curr key node, go right
 		else if(cmp > 0) {
-			root.setRightChild(inserthelper( root.getRightChild(), key, value,root));
+			root.setRightChild(insertHelper( root.getRightChild(), key, value,root));
 		}
 		//we reached key
 		else {

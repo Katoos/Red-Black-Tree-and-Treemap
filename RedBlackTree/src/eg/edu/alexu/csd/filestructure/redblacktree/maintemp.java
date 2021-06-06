@@ -1,7 +1,11 @@
 package eg.edu.alexu.csd.filestructure.redblacktree;
 
+import java.util.Map;
+import java.util.Set;
+
 public class maintemp {
 	public static void main(String[] args) {
+		/*
 		IRedBlackTree<Integer, Integer> tree = new RedBlackTree<Integer, Integer>() ;
 	
 		tree.insert(10, 55);
@@ -14,6 +18,45 @@ public class maintemp {
 		System.out.println(tree.contains(3)) ;
 		System.out.println(tree.search(3));
 		System.out.println(tree.search(10));
+
+		 */
+		ITreeMap<Integer, String> treeMap = new TreeMap<Integer, String>();
+		treeMap.put(10, "A");
+		treeMap.put(7, "B");
+		treeMap.put(20, "C");
+		treeMap.put(13, "D");
+		treeMap.put(5, "E");
+		treeMap.put(9, "F");
+		treeMap.put(11, "G");
+		treeMap.put(24, "H");
+		//Set<Map.Entry<Integer, String>> set = treeMap.entrySet();
+		//set.forEach(entry -> System.out.println(entry.getKey()));
+		//System.out.println(treeMap.containsValue("ll"));
+		//treeMap.clear();
+		Map.Entry<Integer, String> entry = treeMap.floorEntry(24);
+		System.out.println(entry.getKey());
+
+//		RedBlackTree<Integer, String> redBlackTree = new RedBlackTree<>();
+//		redBlackTree.insert(10, "A");
+//		redBlackTree.insert(7, "A");
+//		redBlackTree.insert(20, "A");
+//		redBlackTree.insert(13, "A");
+//		redBlackTree.insert(5, "A");
+//		redBlackTree.insert(9, "A");
+//		redBlackTree.insert(11, "A");
+//		redBlackTree.insert(12, "A");
+//		redBlackTree.insert(14, "A");
+//		redBlackTree.insert(15, "A");
+//		redBlackTree.insert(16, "A");
+//		redBlackTree.insert(17, "A");
+//		redBlackTree.insert(18, "A");
+//		redBlackTree.insert(19, "A");
+//		redBlackTree.insert(21, "A");
+//		redBlackTree.search(5);
+//		System.out.println(redBlackTree.getRoot().getKey());
+
+		//String str1 = "aaa", str2 = null;
+		//System.out.println(str1.compareTo(str2));
 	}
 }
  
