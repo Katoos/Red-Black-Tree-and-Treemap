@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.filestructure.redblacktree;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,8 +34,24 @@ public class maintemp {
 		//set.forEach(entry -> System.out.println(entry.getKey()));
 		//System.out.println(treeMap.containsValue("ll"));
 		//treeMap.clear();
+
 		Map.Entry<Integer, String> entry = treeMap.floorEntry(24);
 		System.out.println(entry.getKey());
+/*
+		ArrayList<Map.Entry<Integer, String>> res=treeMap.headMap(11);
+		for (Map.Entry<Integer, String> re : res) {
+			System.out.print(re.getKey()+" ");
+		}
+
+ */
+
+		//System.out.println(treeMap.pollFirstEntry().getKey());
+
+		Set<Integer> res=treeMap.keySet();
+		for (Integer re : res) {
+			System.out.print(re+" ");
+		}
+
 
 //		RedBlackTree<Integer, String> redBlackTree = new RedBlackTree<>();
 //		redBlackTree.insert(10, "A");
@@ -57,6 +74,7 @@ public class maintemp {
 
 		//String str1 = "aaa", str2 = null;
 		//System.out.println(str1.compareTo(str2));
+
 	}
 }
  

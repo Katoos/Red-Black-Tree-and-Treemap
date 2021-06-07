@@ -14,8 +14,6 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
         this.flag = false;
     }
 
-
-
     public Map.Entry<T, V> castToMapEntry(INode<T, V> node) {
         Map.Entry<T, V> entry = new Map.Entry<T, V>() {
             @Override
@@ -195,22 +193,46 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public V get(T key) {
-        return null;
+        return rbTree.search(key);
     }
 
     @Override
     public ArrayList<Map.Entry<T, V>> headMap(T toKey) {
-        return null;
+        ArrayList<Map.Entry<T, V>> result=new ArrayList<>();
+        traversToKey(rbTree.getRoot(),toKey,result);
+        result.remove(result.size()-1);
+        return result;
     }
 
     @Override
     public ArrayList<Map.Entry<T, V>> headMap(T toKey, boolean inclusive) {
-        return null;
+        ArrayList<Map.Entry<T, V>> result=new ArrayList<>();
+        traversToKey(rbTree.getRoot(),toKey,result);
+        return result;
+    }
+
+    private void traversToKey( INode<T, V> root, T key, ArrayList<Map.Entry<T, V>> result){
+        if(root==null)
+            return;
+        traversToKey(root.getLeftChild(),key,result);
+        if(key.compareTo(root.getKey()) >=0)
+            result.add(castToMapEntry(root));
+        traversToKey(root.getRightChild(),key,result);
     }
 
     @Override
     public Set<T> keySet() {
-        return null;
+        Set<T> result=new LinkedHashSet<>();
+        inorderTraversal(rbTree.getRoot(),result);
+        return result;
+    }
+
+    private void inorderTraversal( INode<T, V> root, Set<T> result){
+        if(root==null)
+            return;
+        inorderTraversal(root.getLeftChild(),result);
+        result.add(root.getKey());
+        inorderTraversal(root.getRightChild(),result);
     }
 
     @Override
@@ -228,12 +250,18 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public Map.Entry<T, V> pollFirstEntry() {
-        return null;
+        if(rbTree.getRoot()==null)return null;
+        Map.Entry<T,V>result= castToMapEntry(getMin(rbTree.getRoot()));
+        remove(result.getKey());
+        return result;
     }
 
     @Override
     public Map.Entry<T, V> pollLastEntry() {
-        return null;
+        if(rbTree.getRoot()==null)return null;
+        Map.Entry<T,V>result= castToMapEntry(getMax(rbTree.getRoot()));
+        remove(result.getKey());
+        return result;
     }
 
     @Override
