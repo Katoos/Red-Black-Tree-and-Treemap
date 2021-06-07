@@ -7,7 +7,8 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     private RedBlackTree<T, V> rbTree;
     private Set<Map.Entry<T, V>> set;
     private boolean flag;
-    private final INode<T, V> nil = new Node<>(true);
+    //private final INode<T, V> nil = new Node<>(true);
+
     public TreeMap() {
         this.rbTree = new RedBlackTree<T, V>();
         this.set = new LinkedHashSet<>();
@@ -40,10 +41,10 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     public Map.Entry<T, V> ceilingEntry(T key) {
         INode<T, V> current = rbTree.searchHelper(key);
         // key not found or tree is empty.
-        if (current == null || current == nil)
+        if (current.equals(rbTree.getNil()))
             return null;
         // get min in the right subtree.
-        if (current.getRightChild() != null) {
+        if (!current.getRightChild().equals(rbTree.getNil())) {
             return castToMapEntry(getMin(current.getRightChild()));
         }
         short status = statusOf(current);
@@ -51,7 +52,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
         // if it is left child return parent.
         if (status == 2)
             return castToMapEntry(current.getParent());
-        // otherwise go up until find a left child and return its parent.
+        // if it is right child go up until find a left child and return its parent.
         while (status == 3) {
             current = current.getParent();
             status = statusOf(current);
@@ -63,33 +64,34 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     }
 
     public INode<T, V> getMin(INode<T, V> root) {
-        if (root == null || root==nil )
+        if (root.equals(rbTree.getNil()))
             return null;
-        while (root.getLeftChild() != null || root.getLeftChild() != nil){
+        while (!root.getLeftChild().equals(rbTree.getNil())){
             root = root.getLeftChild();
         }
         return root;
     }
 
     public INode<T, V> getMax(INode<T, V> root) {
-        if (root == null ||root == nil)
+        if (root.equals(rbTree.getNil()))
             return null;
-        while (root.getRightChild() != nil ){
+        while (!root.getRightChild().equals(rbTree.getNil())){
             root = root.getRightChild();
         }
         return root;
     }
 
+    //
 
     public short statusOf (INode<T, V> current) {
         // root.
-        if (current.getParent() == null || current.getParent() == nil)
+        if (current.getParent().isNull())
             return 1;
         // left child.
-        if (current.getParent().getKey().compareTo(current.getKey()) > 0 && current != nil)
+        if (!current.equals(rbTree.getNil()) && current.getParent().getKey().compareTo(current.getKey()) > 0)
             return 2;
         // right child.
-        else if(current.getParent().getKey().compareTo(current.getKey()) < 0 && current != nil)
+        else if(current.getParent().getKey().compareTo(current.getKey()) < 0 && !current.equals(rbTree.getNil()))
         	return 3;
         return 1 ;
     }
@@ -97,7 +99,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     @Override
     public T ceilingKey(T key) {
         Map.Entry<T, V> ceil = ceilingEntry(key);
-        if (ceil != null || ceil != nil)
+        if (ceil != null)
             return ceil.getKey();
         return null;
     }
@@ -113,7 +115,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     }
 
     public void InorderTraversal (INode<T, V> root) {
-        if (root == null)
+        if (root.equals(rbTree.getNil()))
             return;
         InorderTraversal(root.getLeftChild());
         set.add(castToMapEntry(root));
@@ -121,7 +123,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     }
 
     public void InorderTraversal (INode<T, V> root, V value) {
-        if (root == null || root == nil)
+        if (root.equals(rbTree.getNil()))
             return;
         InorderTraversal(root.getLeftChild(), value);
         if (root.getValue().equals(value)){
@@ -154,7 +156,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     @Override
     public T firstKey() {
         Map.Entry<T, V> first = firstEntry();
-        if (first != null || first != nil)
+        if (first != null)
             return first.getKey();
         return null;
     }
@@ -163,10 +165,10 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     public Map.Entry<T, V> floorEntry(T key) {
         INode<T, V> current = rbTree.searchHelper( key);
         // key not found or tree is empty.
-        if (current == null || current==nil)
+        if (current.equals(rbTree.getNil()))
             return null;
         // get max in the left subtree.
-        if (current.getLeftChild() != null  ) {
+        if (!current.getLeftChild().equals(rbTree.getNil())) {
             return castToMapEntry(getMax(current.getLeftChild()));
         }
         short status = statusOf(current);
@@ -188,7 +190,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     @Override
     public T floorKey(T key) {
         Map.Entry<T, V> floor = floorEntry(key);
-        if (floor != null ||floor!=nil)
+        if (floor != null)
             return floor.getKey();
         return null;
     }
@@ -214,7 +216,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     }
 
     private void traversToKey( INode<T, V> root, T key, ArrayList<Map.Entry<T, V>> result){
-        if(root==null)
+        if(root.isNull())
             return;
         traversToKey(root.getLeftChild(),key,result);
         if(key.compareTo(root.getKey()) >=0)
@@ -230,7 +232,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     }
 
     private void inorderTraversal( INode<T, V> root, Set<T> result){
-        if(root==null||root==nil)
+        if(root.isNull())
             return;
         inorderTraversal(root.getLeftChild(),result);
         result.add(root.getKey());
@@ -252,7 +254,8 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public Map.Entry<T, V> pollFirstEntry() {
-        if(rbTree.getRoot()==null||rbTree.getRoot()==nil)return null;
+        if(rbTree.isEmpty())
+            return null;
         Map.Entry<T,V>result= castToMapEntry(getMin(rbTree.getRoot()));
         remove(result.getKey());
         return result;
@@ -260,7 +263,8 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public Map.Entry<T, V> pollLastEntry() {
-        if(rbTree.getRoot()==null||rbTree.getRoot()==nil)return null;
+        if(rbTree.isEmpty())
+            return null;
         Map.Entry<T,V>result= castToMapEntry(getMax(rbTree.getRoot()));
         remove(result.getKey());
         return result;
@@ -297,7 +301,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     }
     
     private void inorderTraversal( INode<T, V> root, Collection<V> result){
-        if(root==null||root==nil)
+        if(root.isNull())
             return;
         inorderTraversal(root.getLeftChild(),result);
         result.add(root.getValue());

@@ -9,6 +9,10 @@ public class RedBlackTree<T extends Comparable<T>, V> implements IRedBlackTree<T
     // Null node with black color
     private final INode<T, V> nil = new Node<>(true);
 
+    public INode<T, V> getNil() {
+        return nil;
+    }
+
     public RedBlackTree() {
         root = nil;
     }
