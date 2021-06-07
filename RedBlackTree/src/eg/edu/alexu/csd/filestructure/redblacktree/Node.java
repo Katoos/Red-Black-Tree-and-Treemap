@@ -1,92 +1,92 @@
 package eg.edu.alexu.csd.filestructure.redblacktree;
 
-public class  Node <T extends Comparable<T>, V> implements INode<T,V> {
+public class Node<T extends Comparable<T>, V> implements INode<T, V> {
 
-	private T key;
-	private V value;
-	private boolean color=BLACK;
-	private INode<T,V> parent , leftChild , rightChild ;
+    private T key;
+    private V value;
+    private INode<T, V> parent, leftChild, rightChild;
+    private boolean color;
+    private final boolean Null;
 
-	@Override
-	public void setParent(INode<T, V> parent) {
-		// TODO Auto-generated method stub
-		this.parent = parent ;
-		
-	}
+    public Node(T newKey, V newValue) {
+        key = newKey;
+        value = newValue;
+        parent = leftChild = rightChild = null;
+        color = RED;
+        Null = false;
+    }
 
-	@Override
-	public INode<T, V> getParent() {
-		// TODO Auto-generated method stub
-		return this.parent ;
-	}
+    // Constructor for null node with black color
+    public Node(boolean newNull) {
+        Null = newNull;
+        color = BLACK;
+        key = null;
+        value = null;
+        parent = leftChild = rightChild = null;
+    }
 
-	@Override
-	public void setLeftChild(INode<T, V> leftChild) {
-		// TODO Auto-generated method stub
-		this.leftChild = leftChild ;
-		
-	}
+    @Override
+    public void setParent(INode<T, V> newParent) {
+        parent = newParent;
+    }
 
-	@Override
-	public INode<T, V> getLeftChild() {
-		// TODO Auto-generated method stub
-		return this.leftChild;
-	}
+    @Override
+    public INode<T, V> getParent() {
+        return parent;
+    }
 
-	@Override
-	public void setRightChild(INode<T, V> rightChild) {
-		// TODO Auto-generated method stub
-		this.rightChild = rightChild ;
-		
-	}
+    @Override
+    public void setLeftChild(INode<T, V> newLeftChild) {
+        leftChild = newLeftChild;
+    }
 
-	@Override
-	public INode<T, V> getRightChild() {
-		// TODO Auto-generated method stub
-		return this.rightChild;
-	}
+    @Override
+    public INode<T, V> getLeftChild() {
+        return leftChild;
+    }
 
-	@Override
-	public T getKey() {
-		// TODO Auto-generated method stub
-		return this.key;
-	}
+    @Override
+    public void setRightChild(INode<T, V> newRightChild) {
+        rightChild = newRightChild;
+    }
 
-	@Override
-	public void setKey(T key) {
-		// TODO Auto-generated method stub
-		this.key = key ;
-	}
+    @Override
+    public INode<T, V> getRightChild() {
+        return rightChild;
+    }
 
-	@Override
-	public V getValue() {
-		// TODO Auto-generated method stub
-		return this.value;
-	}
+    @Override
+    public T getKey() {
+        return key;
+    }
 
-	@Override
-	public void setValue(V value) {
-		// TODO Auto-generated method stub
-		this.value = value ;
-	}
+    @Override
+    public void setKey(T newKey) {
+        key = newKey;
+    }
 
-	@Override
-	public boolean getColor() {
-		// TODO Auto-generated method stub
-		return this.color;
-	}
+    @Override
+    public V getValue() {
+        return value;
+    }
 
-	@Override
-	public void setColor(boolean color) {
-		// TODO Auto-generated method stub
-		this.color = color ;
-	}
+    @Override
+    public void setValue(V newValue) {
+        value = newValue;
+    }
 
-	@Override
-	public boolean isNull() {
-		// TODO Auto-generated method stub
-		return (value==null || key ==null);
-	}
+    @Override
+    public boolean getColor() {
+        return color;
+    }
 
+    @Override
+    public void setColor(boolean newColor) {
+        color = newColor;
+    }
 
+    @Override
+    public boolean isNull() {
+        return Null;
+    }
 }
