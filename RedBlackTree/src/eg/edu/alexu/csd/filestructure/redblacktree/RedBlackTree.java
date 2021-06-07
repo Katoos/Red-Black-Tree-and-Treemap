@@ -5,6 +5,7 @@ import javax.management.RuntimeErrorException;
 public class RedBlackTree<T extends Comparable<T>, V> implements IRedBlackTree<T, V> {
 
     private INode<T, V> root;
+    private int size=0;
     // Null node with black color
     private final INode<T, V> nil = new Node<>(true);
 
@@ -25,6 +26,11 @@ public class RedBlackTree<T extends Comparable<T>, V> implements IRedBlackTree<T
     @Override
     public void clear() {
         root = nil;
+        size = 0;
+    }
+    
+    public int size() {
+    	return size;
     }
 
     @Override
@@ -86,6 +92,7 @@ public class RedBlackTree<T extends Comparable<T>, V> implements IRedBlackTree<T
             }
             redRed(newNode);    // Fixing the problem of two consecutive red nodes
         }
+        size++;
     }
 
     @Override
@@ -132,6 +139,7 @@ public class RedBlackTree<T extends Comparable<T>, V> implements IRedBlackTree<T
         if (tempColor == INode.BLACK) {
             doubleBlack(nodeReplace);
         }
+        size--;
         return true;
     }
 

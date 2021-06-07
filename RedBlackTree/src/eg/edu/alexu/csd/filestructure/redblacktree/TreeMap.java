@@ -273,21 +273,36 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public void putAll(Map<T, V> map) {
-
+    	for(Map.Entry<T,V> entry : map.entrySet()) {
+    		  put(entry.getKey() , entry.getValue());
+    	}
     }
 
     @Override
     public boolean remove(T key) {
-        return false;
+        return rbTree.delete(key);
     }
 
     @Override
     public int size() {
-        return 0;
+        return rbTree.size();
     }
 
     @Override
     public Collection<V> values() {
-        return null;
+    	Collection<V> collection = null;
+
+		inorderTraversal(rbTree.getRoot(), collection);
+        return collection;
     }
+    
+    private void inorderTraversal( INode<T, V> root, Collection<V> result){
+        if(root==null||root==nil)
+            return;
+        inorderTraversal(root.getLeftChild(),result);
+        result.add(root.getValue());
+        inorderTraversal(root.getRightChild(),result);
+    }
+    
+    
 }
