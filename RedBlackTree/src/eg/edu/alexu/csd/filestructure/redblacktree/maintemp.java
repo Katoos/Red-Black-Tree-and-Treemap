@@ -22,6 +22,14 @@ public class maintemp {
 		System.out.println(tree.search(10));
 
 		 */
+
+		IRedBlackTree<Integer, String> tree = new RedBlackTree<>();
+		tree.insert(3, "A");
+		tree.insert(6, "B");
+		tree.insert(7, "C");
+		tree.insert(10, "D");
+		//tree.contains(null);
+
 		ITreeMap<Integer, String> treeMap = new TreeMap<Integer, String>();
 		treeMap.put(10, "A");
 		treeMap.put(7, "B");
@@ -31,6 +39,8 @@ public class maintemp {
 		treeMap.put(9, "F");
 		treeMap.put(11, "G");
 		treeMap.put(24, "H");
+
+		System.out.println(treeMap.ceilingEntry(null));
 		Collection<String> valueSet = treeMap.values();
 		valueSet.forEach(val -> System.out.println(val));
 		//System.out.println(treeMap.containsValue("ll"));

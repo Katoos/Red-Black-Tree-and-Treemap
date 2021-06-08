@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.filestructure.redblacktree;
 
+import javax.management.RuntimeErrorException;
 import java.util.*;
 
 public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
@@ -16,6 +17,8 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     }
 
     public Map.Entry<T, V> castToMapEntry(INode<T, V> node) {
+        if (node == null)
+            return null;
         Map.Entry<T, V> entry = new Map.Entry<T, V>() {
             @Override
             public T getKey() {
@@ -39,6 +42,8 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public Map.Entry<T, V> ceilingEntry(T key) {
+        if (key == null)
+            throw new RuntimeErrorException(new Error());
         INode<T, V> current = rbTree.searchHelper(key);
         // key not found or tree is empty.
         if (current.equals(rbTree.getNil()))
@@ -136,6 +141,8 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public boolean containsValue(V value) {
+        if (value == null)
+            throw new RuntimeErrorException(new Error());
         flag = false;
         InorderTraversal(rbTree.getRoot(), value);
         return flag;
@@ -163,6 +170,8 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public Map.Entry<T, V> floorEntry(T key) {
+        if (key == null)
+            throw new RuntimeErrorException(new Error());
         INode<T, V> current = rbTree.searchHelper( key);
         // key not found or tree is empty.
         if (current.equals(rbTree.getNil()))
@@ -202,7 +211,9 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public ArrayList<Map.Entry<T, V>> headMap(T toKey) {
-        ArrayList<Map.Entry<T, V>> result=new ArrayList<>();
+        if (toKey == null)
+            throw new RuntimeErrorException(new Error());
+        ArrayList<Map.Entry<T, V>> result = new ArrayList<>();
         traversToKey(rbTree.getRoot(),toKey,result);
         result.remove(result.size()-1);
         return result;
@@ -210,7 +221,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public ArrayList<Map.Entry<T, V>> headMap(T toKey, boolean inclusive) {
-        ArrayList<Map.Entry<T, V>> result=new ArrayList<>();
+        ArrayList<Map.Entry<T, V>> result = new ArrayList<>();
         traversToKey(rbTree.getRoot(),toKey,result);
         return result;
     }
@@ -280,6 +291,8 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public void putAll(Map<T, V> map) {
+        if (map == null)
+            throw new RuntimeErrorException(new Error());
     	for(Map.Entry<T,V> entry : map.entrySet()) {
     		  put(entry.getKey() , entry.getValue());
     	}
