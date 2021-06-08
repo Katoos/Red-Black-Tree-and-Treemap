@@ -226,18 +226,21 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public Set<T> keySet() {
-        Set<T> result=new LinkedHashSet<>();
-        inorderTraversal(rbTree.getRoot(),result);
+        Set<T> result = new LinkedHashSet<>();
+        set = entrySet();
+        for (Map.Entry<T, V> entry : set) {
+            result.add(entry.getKey());
+        }
         return result;
     }
 
-    private void inorderTraversal( INode<T, V> root, Set<T> result){
-        if(root.isNull())
-            return;
-        inorderTraversal(root.getLeftChild(),result);
-        result.add(root.getKey());
-        inorderTraversal(root.getRightChild(),result);
-    }
+//    private void inorderTraversal( INode<T, V> root, Set<T> result){
+//        if(root.isNull())
+//            return;
+//        inorderTraversal(root.getLeftChild(),result);
+//        result.add(root.getKey());
+//        inorderTraversal(root.getRightChild(),result);
+//    }
 
     @Override
     public Map.Entry<T, V> lastEntry() {
@@ -294,19 +297,21 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     @Override
     public Collection<V> values() {
-    	Collection<V> collection = null;
+        Collection<V> result = new LinkedHashSet<>();
+        set = entrySet();
+        for (Map.Entry<T, V> entry : set) {
+            result.add(entry.getValue());
+        }
+        return result;
+    }
 
-		inorderTraversal(rbTree.getRoot(), collection);
-        return collection;
-    }
-    
-    private void inorderTraversal( INode<T, V> root, Collection<V> result){
-        if(root.isNull())
-            return;
-        inorderTraversal(root.getLeftChild(),result);
-        result.add(root.getValue());
-        inorderTraversal(root.getRightChild(),result);
-    }
+//    private void inorderTraversal( INode<T, V> root, Collection<V> result){
+//        if(root.isNull())
+//            return;
+//        inorderTraversal(root.getLeftChild(),result);
+//        result.add(root.getValue());
+//        inorderTraversal(root.getRightChild(),result);
+//    }
     
     
 }

@@ -1,6 +1,7 @@
 package eg.edu.alexu.csd.filestructure.redblacktree;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,14 +31,14 @@ public class maintemp {
 		treeMap.put(9, "F");
 		treeMap.put(11, "G");
 		treeMap.put(24, "H");
-//		Set<Map.Entry<Integer, String>> set = treeMap.entrySet();
-//		set.forEach(entry -> System.out.println(entry.getKey()));
+		Collection<String> valueSet = treeMap.values();
+		valueSet.forEach(val -> System.out.println(val));
 		//System.out.println(treeMap.containsValue("ll"));
 		//treeMap.clear();
 
-		Map.Entry<Integer, String> entry = treeMap.floorEntry(24);
-		System.out.println(entry.getKey());
-		System.out.println(treeMap.containsValue("F"));
+//		Map.Entry<Integer, String> entry = treeMap.floorEntry(24);
+//		System.out.println(entry.getKey());
+//		System.out.println(treeMap.containsValue("F"));
 /*
 		ArrayList<Map.Entry<Integer, String>> res=treeMap.headMap(11);
 		for (Map.Entry<Integer, String> re : res) {
@@ -48,10 +49,10 @@ public class maintemp {
 
 		//System.out.println(treeMap.pollFirstEntry().getKey());
 
-		Set<Integer> res=treeMap.keySet();
-		for (Integer re : res) {
-			System.out.print(re+" ");
-		}
+//		Set<Integer> res=treeMap.keySet();
+//		for (Integer re : res) {
+//			System.out.print(re+" ");
+//		}
 
 
 //		RedBlackTree<Integer, String> redBlackTree = new RedBlackTree<>();
