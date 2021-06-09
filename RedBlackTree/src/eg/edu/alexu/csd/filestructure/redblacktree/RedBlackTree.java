@@ -76,25 +76,25 @@ public class RedBlackTree<T extends Comparable<T>, V> implements IRedBlackTree<T
         // Case for first node entered which will be root
         if (root == nil) {
             root = newNode;
-            root.setColor(INode.BLACK);     // Root is always black in red-black trees
-            root.setParent(nil);            // Setting Null node as its parent
+            root.setColor(INode.BLACK);     
+            root.setParent(nil);            
         }
         else {
             INode<T, V> temp = searchHelper(key);   // Find the parent node of the new node
 
-            // Update value if key already exists
+            //key already exists
             if (key.compareTo(temp.getKey()) == 0){
                 temp.setValue(value);
                 return;
             }
-            newNode.setParent(temp);            // Setting links between the new node and its parent
+            newNode.setParent(temp);           
             if (key.compareTo(temp.getKey()) < 0) {
                 temp.setLeftChild(newNode);
             }
             else {
                 temp.setRightChild(newNode);
             }
-            redRed(newNode);    // Fixing the problem of two consecutive red nodes
+            redRed(newNode);    // Manage RB tree specifications
         }
         size++;
     }
@@ -264,7 +264,7 @@ public class RedBlackTree<T extends Comparable<T>, V> implements IRedBlackTree<T
         }
     }
 
-    // Left rotate a node
+    // Left rotate 
     private void leftRotate(INode<T, V> node) {
         INode<T, V> temp = node.getRightChild();
         temp.setParent(node.getParent());
@@ -291,7 +291,7 @@ public class RedBlackTree<T extends Comparable<T>, V> implements IRedBlackTree<T
         }
     }
 
-    // Right rotate a node
+    // Right rotate 
     private void rightRotate(INode<T, V> node) {
         INode<T, V> temp = node.getLeftChild();
         temp.setParent(node.getParent());
