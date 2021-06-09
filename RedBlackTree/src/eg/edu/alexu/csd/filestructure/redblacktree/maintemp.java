@@ -6,7 +6,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class maintemp {
+	static class A {
+		int x, y;
+		public A (int x, int y){
+			this.x = x;
+			this.y = y;
+		}
+	}
 	public static void main(String[] args) {
+
 		/*
 		IRedBlackTree<Integer, Integer> tree = new RedBlackTree<Integer, Integer>() ;
 	
@@ -23,6 +31,10 @@ public class maintemp {
 
 		 */
 
+		A a = new A(2,3);
+		A b = new A(2,3);
+		System.out.println(a.equals(b));
+
 		IRedBlackTree<Integer, String> tree = new RedBlackTree<>();
 		tree.insert(3, "A");
 		tree.insert(6, "B");
@@ -31,6 +43,7 @@ public class maintemp {
 		//tree.contains(null);
 
 		ITreeMap<Integer, String> treeMap = new TreeMap<Integer, String>();
+		java.util.TreeMap<Integer, String> map = new java.util.TreeMap<Integer, String>();
 		treeMap.put(10, "A");
 		treeMap.put(7, "B");
 		treeMap.put(20, "C");
@@ -40,9 +53,29 @@ public class maintemp {
 		treeMap.put(11, "G");
 		treeMap.put(24, "H");
 
-		System.out.println(treeMap.ceilingEntry(null));
-		Collection<String> valueSet = treeMap.values();
-		valueSet.forEach(val -> System.out.println(val));
+		System.out.println(treeMap.floorEntry(25).getKey());
+
+
+//		map.put(10, "A");
+//		map.put(7, "B");
+//		map.put(20, "C");
+//		map.put(13, "D");
+//		map.put(5, "E");
+//		map.put(9, "F");
+//		map.put(11, "G");
+//		map.put(24, "H");
+
+//		System.out.println(treeMap.ceilingEntry(10).getKey());
+//		System.out.println(map.higherEntry(8).getKey());
+//		Set<Map.Entry<Integer, String>> set1 = treeMap.entrySet();
+//		Set<Map.Entry<Integer, String>> set2 = map.entrySet();
+//
+//
+//		System.out.println(set1.iterator().next().equals(set2.iterator().next()));
+
+//		Collection<String> valueSet = treeMap.values();
+//		valueSet.forEach(val -> System.out.println(val));
+
 		//System.out.println(treeMap.containsValue("ll"));
 		//treeMap.clear();
 

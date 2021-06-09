@@ -7,19 +7,27 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
 
     private RedBlackTree<T, V> rbTree;
     private Set<Map.Entry<T, V>> set;
-    private boolean flag;
+    private boolean flagIsFound, flagIsNull;
     //private final INode<T, V> nil = new Node<>(true);
 
     public TreeMap() {
         this.rbTree = new RedBlackTree<T, V>();
         this.set = new LinkedHashSet<>();
-        this.flag = false;
+        this.flagIsFound = false;
+        this.flagIsNull = false;
     }
 
     public Map.Entry<T, V> castToMapEntry(INode<T, V> node) {
         if (node == null)
             return null;
         Map.Entry<T, V> entry = new Map.Entry<T, V>() {
+
+            @Override
+            public boolean equals(Object obj) {
+                return this.getKey().equals(((Map.Entry<T, V>)obj).getKey()) &&
+                        this.getValue().equals(((Map.Entry<T, V>)obj).getValue());
+            }
+
             @Override
             public T getKey() {
                 return node.getKey();
@@ -40,31 +48,58 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
         return entry;
     }
 
+    public INode<T, V> searchHelper (T key) {
+        INode<T, V> temp = rbTree.getRoot();
+        while (temp != rbTree.getNil()) {
+            if (key.compareTo(temp.getKey()) > 0) {
+                if (temp.getRightChild().isNull()) {
+                    flagIsNull = true;
+                    return temp;
+                }
+                else {
+                    temp = temp.getRightChild();
+                }
+            }
+            else if (key.compareTo(temp.getKey()) < 0) {
+                if (temp.getLeftChild().isNull()) {
+                    flagIsNull = true;
+                    return temp;
+                }
+                else {
+                    temp = temp.getLeftChild();
+                }
+            }
+            else {
+                break;
+            }
+        }
+        return temp;
+    }
+
     @Override
     public Map.Entry<T, V> ceilingEntry(T key) {
         if (key == null)
             throw new RuntimeErrorException(new Error());
-        INode<T, V> current = rbTree.searchHelper(key);
-        // key not found or tree is empty.
-        if (current.equals(rbTree.getNil()))
-            return null;
-        // get min in the right subtree.
-        if (!current.getRightChild().equals(rbTree.getNil())) {
-            return castToMapEntry(getMin(current.getRightChild()));
-        }
+        flagIsNull = false;
+        INode<T, V> current = searchHelper(key);
+        // key found.
+        if (!flagIsNull)
+            return castToMapEntry(current);
+        // otherwise we have 2 cases.
+        // current (parent of the the key if it had been inserted) is greater than the key.
+        // like assuming that the key was virtually inserted (left Of current) then return its parent (current).
+        if (current.getKey().compareTo(key) > 0)
+            return castToMapEntry(current);
+        // current (parent of the the key if it had been inserted) is less than the key.
+        // go upwards until find a left child and return its parent.
         short status = statusOf(current);
-        // case no right subtree.
-        // if it is left child return parent.
-        if (status == 2)
-            return castToMapEntry(current.getParent());
-        // if it is right child go up until find a left child and return its parent.
         while (status == 3) {
             current = current.getParent();
             status = statusOf(current);
         }
         if (status == 2)
             return castToMapEntry(current.getParent());
-        // if no left child is found then it's the max entry.
+        // if no left child is found then No ceiling entry exists.
         return null;
     }
 
@@ -132,7 +167,7 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
             return;
         InorderTraversal(root.getLeftChild(), value);
         if (root.getValue().equals(value)){
-            flag = true;
+            flagIsFound = true;
             return;
         }
         InorderTraversal(root.getRightChild(), value);
@@ -143,9 +178,9 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     public boolean containsValue(V value) {
         if (value == null)
             throw new RuntimeErrorException(new Error());
-        flag = false;
+        flagIsFound = false;
         InorderTraversal(rbTree.getRoot(), value);
-        return flag;
+        return flagIsFound;
     }
 
     @Override
@@ -172,27 +207,26 @@ public class TreeMap <T extends Comparable<T>, V> implements ITreeMap <T, V>{
     public Map.Entry<T, V> floorEntry(T key) {
         if (key == null)
             throw new RuntimeErrorException(new Error());
-        INode<T, V> current = rbTree.searchHelper( key);
-        // key not found or tree is empty.
-        if (current.equals(rbTree.getNil()))
-            return null;
-        // get max in the left subtree.
-        if (!current.getLeftChild().equals(rbTree.getNil())) {
-            return castToMapEntry(getMax(current.getLeftChild()));
-        }
+        flagIsNull = false;
+        INode<T, V> current = searchHelper(key);
+        // key found.
+        if (!flagIsNull)
+            return castToMapEntry(current);
+        // otherwise we have 2 cases.
+        // current (parent of the the key if it had been inserted) is less than the key.
+        // like assuming that the key was virtually inserted (right Of current) then return its parent (current).
+        if (current.getKey().compareTo(key) < 0)
+            return castToMapEntry(current);
+        // current (parent of the the key if it had been inserted) is greater than the key.
+        // go upwards until find a right child and return its parent.
         short status = statusOf(current);
-        // case no left subtree.
-        // if it is right child return parent.
-        if (status == 3)
-            return castToMapEntry(current.getParent());
-        // otherwise go up until find a right child and return its parent.
         while (status == 2) {
             current = current.getParent();
             status = statusOf(current);
         }
         if (status == 3)
             return castToMapEntry(current.getParent());
-        // if no left child is found then it's the min entry.
+        // if no right child is found then No floor entry exists.
         return null;
     }
 
